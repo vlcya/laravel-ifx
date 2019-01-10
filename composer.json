@@ -1,20 +1,25 @@
 {
-  "name": "poyii/laravel-ifx",
-  "description": "Informix DB driver for Laravel 5",
-  "keywords": ["informix", "laravel", "laravel 5", "ifx" ],
+  "name": "isoc-il/laravel-ifx",
+  "description": "Informix DB driver for Laravel 5. Forked from poly/laravel-ifx",
+  "keywords": [
+    "informix",
+    "laravel",
+    "laravel 5",
+    "ifx"
+  ],
   "license": "MIT",
-  "version": "1.0.4",
+  "version": "dev-master",
   "authors": [
     {
-      "name": "llaiayumi",
-      "email": "872833541@qq.com"
+      "name": "Rabin",
+      "email": "r@isoc.org.il"
     }
   ],
   "require": {
     "php": ">=5.5.31",
-    "illuminate/support": "5.2.*",
-    "illuminate/database": "5.2.*",
-    "illuminate/pagination": "5.2.*"
+    "illuminate/support": "5.*",
+    "illuminate/database": "5.*",
+    "illuminate/pagination": "5.*"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
@@ -24,8 +29,15 @@
   },
   "autoload": {
     "psr-4": {
-      "Poyii\\": "src/Poyii"
+      "Poyii\\": "src/"
     }
   },
-  "minimum-stability": "stable"
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Poyii\\Informix\\InformixDBServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev-master"
 }

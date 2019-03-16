@@ -1,12 +1,14 @@
 <?php
 
 namespace Poyii\Informix;
+
 /**
  * Created by PhpStorm.
  * User: llaijiale
  * Date: 2016/1/20
  * Time: 14:34
  */
+
 use Illuminate\Database\Connection;
 use Poyii\Informix\Query\Processors\IfxProcessor;
 use Poyii\Informix\Query\Grammars\IfxGrammar as QueryGrammar;
@@ -43,7 +45,8 @@ class IfxConnection extends Connection
     }
 
 
-    public function prepareBindings(array $bindings){
+    public function prepareBindings(array $bindings)
+    {
         $grammar = $this->getQueryGrammar();
         if($this->isTransEncoding()){
             $db_encoding = $this->getConfig('db_encoding');
@@ -73,13 +76,15 @@ class IfxConnection extends Connection
         return $bindings;
     }
 
-    protected function isTransEncoding(){
+    protected function isTransEncoding()
+    {
         $db_encoding = $this->getConfig('db_encoding');
         $client_encoding = $this->getConfig('client_encoding');
         return ($db_encoding && $client_encoding && ($db_encoding != $client_encoding));
     }
 
-    protected function convertCharset($in_encoding, $out_encoding, $value){
+    protected function convertCharset($in_encoding, $out_encoding, $value)
+    {
 
         //IGNORE
 //        $encoding = mb_detect_encoding($value, mb_detect_order(), false);
@@ -95,8 +100,9 @@ class IfxConnection extends Connection
 
     public function select($query, $bindings = [], $useReadPdo = true)
     {
-        if(config("app.debug"))
+        if (config("app.debug")) {
             Log::debug("query: ".$query." with ".implode(', ', $bindings));
+        }
         $results = parent::select($query, $bindings, $useReadPdo);
         if($this->isTransEncoding()){
             if($results){
@@ -110,12 +116,16 @@ class IfxConnection extends Connection
                                     $value = $this->convertCharset($db_encoding, $client_encoding, $value);
                                 }
                             }
-                        } else if(is_string($result)) {
+                        } else {
+                            if (is_string($result)) {
                             $result = $this->convertCharset($db_encoding, $client_encoding, $result);
                         }
                     }
-                } else if(is_string($results)) {
+                    }
+                } else {
+                    if (is_string($results)) {
                     $results = $this->convertCharset($db_encoding, $client_encoding, $results);
+                    }
                 }
             }
         }
@@ -146,39 +156,42 @@ class IfxConnection extends Connection
     public function statement($query, $bindings = [])
     {
 
-        if(config("app.debug"))
+        if (config("app.debug")) {
             Log::debug("statement: ".$query." with ".implode(', ', $bindings));
-        return $this->run($query, $bindings, function ($me, $query, $bindings) {
-            if ($me->pretending()) {
+        }
+
+        return $this->run($query, $bindings, function ($query, $bindings) {
+            if ($this->pretending()) {
                 return true;
             }
             $count = substr_count($query, '?');
             if($count == count($bindings)){
-                $bindings = $me->prepareBindings($bindings);
-                return $me->getPdo()->prepare($query)->execute($bindings);
+                $bindings = $this->prepareBindings($bindings);
+                return $this->getPdo()->prepare($query)->execute($bindings);
             }
 
-            if(count($bindings) % $count > 0)
+            if (count($bindings) % $count > 0) {
                 throw new \InvalidArgumentException('the driver can not support multi-insert.');
+            }
 
             $mutiBindings = array_chunk($bindings, $count);
-            $me->beginTransaction();
+            $this->beginTransaction();
             try{
-                $pdo = $me->getPdo();
+                $pdo  = $this->getPdo();
                 $stmt = $pdo->prepare($query);
 
                 foreach($mutiBindings as $mutiBinding){
-                    $mutiBinding = $me->prepareBindings($mutiBinding);
+                    $mutiBinding = $this->prepareBindings($mutiBinding);
                     $stmt->execute($mutiBinding);
                 }
             }catch(\Exception $e){
-                $me->rollBack();
+                $this->rollBack();
                 return false;
             }catch(\Throwable $e){
-                $me->rollBack();
+                $this->rollBack();
                 return false;
             }
-            $me->commit();
+            $this->commit();
 
             return true;
 
@@ -187,8 +200,9 @@ class IfxConnection extends Connection
 
     public function affectingStatement($query, $bindings = [])
     {
-        if(config("app.debug"))
+        if (config("app.debug")) {
             Log::debug("affectingStatement: ".$query." with ".implode(', ', $bindings));
+        }
         return parent::affectingStatement($query, $bindings);
     }
 

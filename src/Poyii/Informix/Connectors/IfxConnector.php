@@ -8,7 +8,6 @@ use PDO;
 use Illuminate\Support\Arr;
 use Exception;
 
-
 class IfxConnector extends Connector implements ConnectorInterface
 {
 
@@ -31,7 +30,11 @@ class IfxConnector extends Connector implements ConnectorInterface
             $pdo = new \PDO($dsn, $username, $password, $options);
         } catch (Exception $e) {
             $pdo = $this->tryAgainIfCausedByLostConnection(
-                $e, $dsn, $username, $password, $options
+                $e,
+                $dsn,
+                $username,
+                $password,
+                $options
             );
         }
 
@@ -57,10 +60,11 @@ class IfxConnector extends Connector implements ConnectorInterface
         $connection = $this->createConnection($dsn, $config, $options);
 
         if (Arr::get($config, 'initSqls', false)) {
-            if(is_string($config['initSqls']))
+            if (is_string($config['initSqls'])) {
                 $connection->exec($config['initSqls']);
-            if(is_array($config['initSqls'])){
-                $connection->exec( implode('; ', $config['initSqls']) );
+            }
+            if (is_array($config['initSqls'])) {
+                $connection->exec(implode('; ', $config['initSqls']));
             }
         }
 
@@ -85,8 +89,12 @@ class IfxConnector extends Connector implements ConnectorInterface
     {
         $options = "protocol=".Arr::get($config, "onsoctcp", "onsoctcp").";";
 
-        if(isset($config['db_locale'])) $options.=" DB_LOCALE={$config['db_locale']};";
-        if(isset($config['client_locale'])) $options.=" CLIENT_LOCALE={$config['client_locale']};";
+        if (isset($config['db_locale'])) {
+            $options.=" DB_LOCALE={$config['db_locale']};";
+        }
+        if (isset($config['client_locale'])) {
+            $options.=" CLIENT_LOCALE={$config['client_locale']};";
+        }
 
         return $options;
     }

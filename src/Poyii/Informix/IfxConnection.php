@@ -48,7 +48,7 @@ class IfxConnection extends Connection
     public function prepareBindings(array $bindings)
     {
         $grammar = $this->getQueryGrammar();
-        if($this->isTransEncoding()){
+        if ($this->isTransEncoding()) {
             $db_encoding = $this->getConfig('db_encoding');
             $client_encoding = $this->getConfig('client_encoding');
             foreach ($bindings as $key => &$value) {
@@ -60,7 +60,7 @@ class IfxConnection extends Connection
                 } elseif ($value === false) {
                     $value = 0;
                 }
-                if(is_string($value)) {
+                if (is_string($value)) {
                     $value = $this->convertCharset($client_encoding, $db_encoding, $value);
                 }
             }
@@ -104,27 +104,27 @@ class IfxConnection extends Connection
             Log::debug("query: ".$query." with ".implode(', ', $bindings));
         }
         $results = parent::select($query, $bindings, $useReadPdo);
-        if($this->isTransEncoding()){
-            if($results){
+        if ($this->isTransEncoding()) {
+            if ($results) {
                 $db_encoding = $this->getConfig('db_encoding');
                 $client_encoding = $this->getConfig('client_encoding');
-                if(is_array($results) || is_object($results)){
-                    foreach($results as &$result){
-                        if(is_array($result) || is_object($result)){
-                            foreach($result as $key=>&$value){
-                                if(is_string($value)){
+                if (is_array($results) || is_object($results)) {
+                    foreach ($results as &$result) {
+                        if (is_array($result) || is_object($result)) {
+                            foreach ($result as $key=>&$value) {
+                                if (is_string($value)) {
                                     $value = $this->convertCharset($db_encoding, $client_encoding, $value);
                                 }
                             }
                         } else {
                             if (is_string($result)) {
-                            $result = $this->convertCharset($db_encoding, $client_encoding, $result);
+                                $result = $this->convertCharset($db_encoding, $client_encoding, $result);
+                            }
                         }
-                    }
                     }
                 } else {
                     if (is_string($results)) {
-                    $results = $this->convertCharset($db_encoding, $client_encoding, $results);
+                        $results = $this->convertCharset($db_encoding, $client_encoding, $results);
                     }
                 }
             }
@@ -155,7 +155,6 @@ class IfxConnection extends Connection
 
     public function statement($query, $bindings = [])
     {
-
         if (config("app.debug")) {
             Log::debug("statement: ".$query." with ".implode(', ', $bindings));
         }
@@ -165,7 +164,7 @@ class IfxConnection extends Connection
                 return true;
             }
             $count = substr_count($query, '?');
-            if($count == count($bindings)){
+            if ($count == count($bindings)) {
                 $bindings = $this->prepareBindings($bindings);
                 return $this->getPdo()->prepare($query)->execute($bindings);
             }
@@ -176,25 +175,24 @@ class IfxConnection extends Connection
 
             $mutiBindings = array_chunk($bindings, $count);
             $this->beginTransaction();
-            try{
+            try {
                 $pdo  = $this->getPdo();
                 $stmt = $pdo->prepare($query);
 
-                foreach($mutiBindings as $mutiBinding){
+                foreach ($mutiBindings as $mutiBinding) {
                     $mutiBinding = $this->prepareBindings($mutiBinding);
                     $stmt->execute($mutiBinding);
                 }
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
                 $this->rollBack();
                 return false;
-            }catch(\Throwable $e){
+            } catch (\Throwable $e) {
                 $this->rollBack();
                 return false;
             }
             $this->commit();
 
             return true;
-
         });
     }
 
@@ -205,6 +203,4 @@ class IfxConnection extends Connection
         }
         return parent::affectingStatement($query, $bindings);
     }
-
-
 }

@@ -33,5 +33,4 @@ class IfxProcessor extends Processor
     {
         return $results;
     }
-
 }

@@ -98,14 +98,16 @@ class IfxGrammar extends Grammar
 
         $sql .= ' )';
 
-        if(isset($blueprint->engine)){
-            if(is_string($blueprint->engine))
+        if (isset($blueprint->engine)) {
+            if (is_string($blueprint->engine)) {
                 $sql.=$blueprint->engine;
-            else if(is_array($blueprint->engine)){
-                if($blueprint->engine['extent'] > 32)
+            } elseif (is_array($blueprint->engine)) {
+                if ($blueprint->engine['extent'] > 32) {
                     $sql.=" extent size ".(int)$blueprint->engine['extent'];
-                if($blueprint->engine['next'] > 32)
+                }
+                if ($blueprint->engine['next'] > 32) {
                     $sql.=" next size ".(int)$blueprint->engine['next'];
+                }
             }
         }
 
@@ -310,8 +312,9 @@ class IfxGrammar extends Grammar
         return $value;
     }
 
-    protected function typeChar(Fluent $column) {
-        if($column->length < 256){
+    protected function typeChar(Fluent $column)
+    {
+        if ($column->length < 256) {
             return 'char('.(int)$column->length.')';
         }
         return 'char(255)';
@@ -323,10 +326,11 @@ class IfxGrammar extends Grammar
      */
     protected function typeString(Fluent $column)
     {
-        if($column->length < 256)
+        if ($column->length < 256) {
             return "varchar({$column->length})";
-        else if($column->length < 32740)
+        } elseif ($column->length < 32740) {
             return "lvarchar({$column->length})";
+        }
         return "lvarchar(32739)";
     }
 
@@ -367,7 +371,7 @@ class IfxGrammar extends Grammar
      */
     protected function typeBigInteger(Fluent $column)
     {
-        if($column->autoIncrement){
+        if ($column->autoIncrement) {
             return 'serial8(1)';
         }
         return 'int8';
@@ -380,7 +384,7 @@ class IfxGrammar extends Grammar
      */
     protected function typeInteger(Fluent $column)
     {
-        if($column->autoIncrement){
+        if ($column->autoIncrement) {
             return 'serial(1)';
         }
         return 'int';
@@ -580,6 +584,4 @@ class IfxGrammar extends Grammar
 
         return strval($value);
     }
-
-
 }

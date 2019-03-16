@@ -12,9 +12,8 @@ use Illuminate\Database\Query\Grammars\Grammar;
  * Time: 0:53
  */
 
-class IfxGrammar extends Grammar {
-
-
+class IfxGrammar extends Grammar
+{
     protected function compileLimit(Builder $query, $limit)
     {
         return '';
@@ -37,11 +36,11 @@ class IfxGrammar extends Grammar {
 
         $select = $query->distinct ? 'select distinct ' : 'select ';
 
-        if($query->offset > 0){
+        if ($query->offset > 0) {
             $select.=' skip '. (int)$query->offset;
         }
 
-        if ($query->limit > 0 ) {
+        if ($query->limit > 0) {
             $select.= ' first '.(int)$query->limit;
         }
 
@@ -75,7 +74,7 @@ class IfxGrammar extends Grammar {
 
         $components = $this->compileComponents($query);
 
-        if(key_exists("lock", $components)){
+        if (key_exists("lock", $components)) {
             unset($components["orders"]);
         }
 
@@ -144,5 +143,4 @@ class IfxGrammar extends Grammar {
 
         //return $bitand.'('.$this->wrap($where['column']).',0) '.$where['operator'].' 0 ';
     }
-
 }

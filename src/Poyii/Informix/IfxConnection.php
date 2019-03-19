@@ -11,6 +11,7 @@ namespace Poyii\Informix;
 
 use Illuminate\Database\Connection;
 use Poyii\Informix\Query\Processors\IfxProcessor;
+use Doctrine\DBAL\Driver\PDOInformix\Driver as DoctrineDriver;
 use Poyii\Informix\Query\Grammars\IfxGrammar as QueryGrammar;
 use Poyii\Informix\Schema\Grammars\IfxGrammar as SchemaGrammar;
 use Poyii\Informix\Schema\IfxBuilder as SchemaBuilder;
@@ -152,6 +153,15 @@ class IfxConnection extends Connection
         return $this->withTablePrefix(new SchemaGrammar);
     }
 
+    /**
+     * Get the Doctrine DBAL driver.
+     *
+     * @return \Doctrine\DBAL\Driver\PDOInformix\Driver
+     */
+    protected function getDoctrineDriver()
+    {
+        return new DoctrineDriver;
+    }
 
     public function statement($query, $bindings = [])
     {

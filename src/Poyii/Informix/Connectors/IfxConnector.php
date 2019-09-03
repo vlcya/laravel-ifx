@@ -5,9 +5,8 @@ namespace Poyii\Informix\Connectors;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Database\Connectors\Connector;
 use Illuminate\Database\Connectors\ConnectorInterface;
-use PDO;
 use Illuminate\Support\Arr;
-use Exception;
+use PDO;
 
 class IfxConnector extends Connector implements ConnectorInterface
 {
@@ -19,7 +18,7 @@ class IfxConnector extends Connector implements ConnectorInterface
      * @var array
      */
     protected $options = [
-        PDO::ATTR_CASE => PDO::CASE_NATURAL,
+        PDO::ATTR_CASE    => PDO::CASE_NATURAL,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ];
 
@@ -50,22 +49,18 @@ class IfxConnector extends Connector implements ConnectorInterface
             $pdo = new \PDO($dsn, $username, $password, $options);
         } catch (Exception $e) {
             $pdo = $this->tryAgainIfCausedByLostConnection(
-                $e,
-                $dsn,
-                $username,
-                $password,
-                $options
+                $e, $dsn, $username, $password, $options
             );
         }
 
         return $pdo;
     }
 
-
     /**
      * Establish a database connection.
      *
      * @param  array  $config
+     *
      * @return \PDO
      */
     public function connect(array $config)
@@ -97,6 +92,7 @@ class IfxConnector extends Connector implements ConnectorInterface
      * Chooses socket or host/port based on the 'unix_socket' config value.
      *
      * @param  array   $config
+     *
      * @return string
      */
     protected function getDsn(array $config)
@@ -107,7 +103,7 @@ class IfxConnector extends Connector implements ConnectorInterface
 
     protected function getDsnOption(array $config)
     {
-        $options = "protocol=".Arr::get($config, "onsoctcp", "onsoctcp").";";
+        $options = 'protocol=' . Arr::get($config, 'onsoctcp', 'onsoctcp') . ';';
 
         if (isset($config['db_locale'])) {
             $options.=" DB_LOCALE={$config['db_locale']};";

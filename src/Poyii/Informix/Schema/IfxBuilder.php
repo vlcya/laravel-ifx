@@ -10,6 +10,7 @@ class IfxBuilder extends Builder
      * Determine if the given table exists.
      *
      * @param  string  $table
+     *
      * @return bool
      */
     public function hasTable($table)
@@ -27,6 +28,7 @@ class IfxBuilder extends Builder
      * Get the column listing for a given table.
      *
      * @param  string  $table
+     *
      * @return array
      */
     public function getColumnListing($table)

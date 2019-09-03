@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: llaijiale
  * Date: 2017/8/2
- * Time: 10:40
+ * Time: 10:40.
  */
 
 namespace Poyii\Informix;
@@ -15,7 +15,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class InformixDBServiceProvider extends ServiceProvider
 {
-
     /**
      * Boot.
      */
@@ -46,6 +45,7 @@ class InformixDBServiceProvider extends ServiceProvider
                 $this->app['db']->extend($key, function ($config) {
                     $oConnector = new Connectors\IfxConnector($this->app['encrypter']);
                     $connection = $oConnector->connect($config);
+
                     return new IfxConnection($connection, $config['database'], $config['prefix'], $config);
                 });
             }

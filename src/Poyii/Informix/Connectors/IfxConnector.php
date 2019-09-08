@@ -2,6 +2,7 @@
 
 namespace Poyii\Informix\Connectors;
 
+use Exception;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Database\Connectors\Connector;
 use Illuminate\Database\Connectors\ConnectorInterface;

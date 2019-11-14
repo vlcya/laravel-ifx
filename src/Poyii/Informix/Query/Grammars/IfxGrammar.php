@@ -87,7 +87,8 @@ class IfxGrammar extends Grammar
             return;
         }
 
-        $select = $query->distinct ? 'select distinct ' : 'select ';
+
+        $select = 'select';
 
         if ($query->offset > 0) {
             $select.=' skip '. (int)$query->offset;
@@ -96,6 +97,8 @@ class IfxGrammar extends Grammar
         if ($query->limit > 0) {
             $select.= ' first '.(int)$query->limit;
         }
+
+        $select .= $query->distinct ? ' distinct' : '';
 
         return $select.' '.$this->columnize($columns);
     }

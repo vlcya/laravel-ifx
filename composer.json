@@ -12,10 +12,11 @@
   ],
   "require": {
     "php": ">=7.1",
-    "illuminate/support": "5.2.*|5.5.*|5.6.*|5.7.*|5.8.*|6.0",
-    "illuminate/database": "5.2.*|5.5.*|5.6.*|5.7.*|5.8.*|6.0",
-    "illuminate/pagination": "5.2.*|5.5.*|5.6.*|5.7.*|5.8.*|6.0",
-    "illuminate/encryption": "5.2.*|5.5.*|5.6.*|5.7.*|5.8.*|6.0"
+    "illuminate/support": "5.*|6.*",
+    "illuminate/database": "5.*|6.*",
+    "illuminate/pagination": "5.*|6.*",
+    "illuminate/encryption": "5.*|6.*",
+    "guzzlehttp/guzzle": "6.2.*|6.3.*"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

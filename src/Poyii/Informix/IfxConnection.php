@@ -64,12 +64,6 @@ class IfxConnection extends Connection
         return $bindings;
     }
 
-    protected function isTransEncoding(){
-        $db_encoding = $this->getConfig('db_encoding');
-        $client_encoding = $this->getConfig('client_encoding');
-        return ($db_encoding && $client_encoding && ($db_encoding != $client_encoding));
-    }
-
     protected function convertCharset($in_encoding, $out_encoding, $value){
 
         //IGNORE
@@ -175,20 +169,6 @@ class IfxConnection extends Connection
         $client_encoding = $this->getConfig('client_encoding');
 
         return $db_encoding && $client_encoding && ($db_encoding != $client_encoding);
-    }
-
-    protected function convertCharset($in_encoding, $out_encoding, $value)
-    {
-        //IGNORE
-//        $encoding = mb_detect_encoding($value, mb_detect_order(), false);
-//
-//        if($encoding == $out_encoding)
-//        {
-//            return $value;
-//        }
-//        Log::debug("encoding: ".$in_encoding." value ".$value);
-        //return mb_convert_encoding(trim($value), $out_encoding);
-        return iconv($in_encoding, "{$out_encoding}//IGNORE", trim($value));
     }
 
     /**

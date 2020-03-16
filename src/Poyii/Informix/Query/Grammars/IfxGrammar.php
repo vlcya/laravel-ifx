@@ -21,7 +21,7 @@ class IfxGrammar extends Grammar
 
         $components = $this->compileComponents($query);
 
-        if (key_exists('lock', $components)) {
+        if (array_key_exists('lock', $components)) {
             unset($components['orders']);
         }
 

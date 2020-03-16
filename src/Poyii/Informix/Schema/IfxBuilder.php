@@ -25,6 +25,29 @@ class IfxBuilder extends Builder
     }
 
     /**
+     * Implement dropAllTables.
+     *
+     * @return bool
+     */
+     public function dropAllTables() {
+        $query = 'SELECT tabname FROM systables WHERE tabid > 99';
+        $pdo  = $this->connection->getPdo();
+        $prep = $pdo->prepare($query);
+        $prep->execute();
+        $tables = $prep->fetchAll(\PDO::FETCH_BOTH);
+
+        $executeReturnCode = true;
+
+        foreach ($tables as $table) {
+            $dropTableQuery = sprintf('DROP TABLE %s;' . PHP_EOL,  $table[0]);
+            $prep = $pdo->prepare($dropTableQuery);
+            $executeReturnCode &= $prep->execute();
+        }
+
+        return $executeReturnCode;
+    }
+
+    /**
      * Get the column listing for a given table.
      *
      * @param  string  $table

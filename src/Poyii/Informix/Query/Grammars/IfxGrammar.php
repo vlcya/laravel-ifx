@@ -34,7 +34,7 @@ class IfxGrammar extends Grammar
 
         $existsQuery->columns = [];
 
-        return $this->compileSelect($existsQuery->selectRaw('1 e'));
+        return $this->compileSelect($existsQuery->selectRaw('1 EXISTS'));
     }
 
     public function compileInsert(Builder $query, array $values)

@@ -3,7 +3,7 @@
   "description": "Informix DB driver for Laravel 5",
   "keywords": ["informix", "laravel", "laravel 5", "ifx" ],
   "license": "MIT",
-  "version": "dev-master",
+  "version": "1.2",
   "authors": [
     {
       "name": "llaiayumi",
@@ -33,8 +33,8 @@
     }
   },
   "autoload": {
-    "psr-0": {
-      "Poyii\\": "src/"
+    "psr-4": {
+      "Poyii\\": "src/Poyii"
     }
   },
   "minimum-stability": "dev",

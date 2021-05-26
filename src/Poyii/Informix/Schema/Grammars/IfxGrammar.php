@@ -357,7 +357,11 @@ class IfxGrammar extends Grammar
      */
     protected function typeLongText(Fluent $column)
     {
-        return 'text';
+        // TODO: I like to avoid using the TEXT type,
+        //  as the PDO driver will return it as a stream resource
+        //  stream_type: "informix PDO Lob stream"
+        //  which breaks Laravel Eloquent
+        return $this->typeString($column);
     }
 
     /**
@@ -367,7 +371,7 @@ class IfxGrammar extends Grammar
      */
     protected function typeMediumText(Fluent $column)
     {
-        return 'text';
+        return $this->typeString($column);
     }
 
     /**
@@ -377,7 +381,7 @@ class IfxGrammar extends Grammar
      */
     protected function typeText(Fluent $column)
     {
-        return 'text';
+        return $this->typeString($column);
     }
 
     /**

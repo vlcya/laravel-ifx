@@ -361,6 +361,10 @@ class IfxGrammar extends Grammar
         //  as the PDO driver will return it as a stream resource
         //  stream_type: "informix PDO Lob stream"
         //  which breaks Laravel Eloquent
+        if (!isset($column->length)) {
+            return 'lvarchar(4096)';
+        }
+
         return $this->typeString($column);
     }
 
@@ -371,6 +375,10 @@ class IfxGrammar extends Grammar
      */
     protected function typeMediumText(Fluent $column)
     {
+        if (!isset($column->length)) {
+            return 'lvarchar(2048)';
+        }
+
         return $this->typeString($column);
     }
 
@@ -381,6 +389,10 @@ class IfxGrammar extends Grammar
      */
     protected function typeText(Fluent $column)
     {
+        if (!isset($column->length)) {
+            return 'lvarchar(2048)';
+        }
+
         return $this->typeString($column);
     }
 

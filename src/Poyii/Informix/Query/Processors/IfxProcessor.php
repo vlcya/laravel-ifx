@@ -19,7 +19,7 @@ class IfxProcessor extends Processor
         $mapping = function ($r) {
             $r = (object) $r;
 
-            return $r->column_name;
+            return $r->colname;
         };
 
         return array_map($mapping, $results);

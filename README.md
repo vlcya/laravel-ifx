@@ -1,4 +1,4 @@
-## Laravel Informix Database Package
+# Laravel Informix Database Package
 
 Laravel-ifx is an Informix Database Driver package for [Laravel Framework](http://laravel.com/) - thanks @taylorotwell. Laravel-ifx is an extension of [Illuminate/Database](https://github.com/illuminate/database) that uses either the PDO extension wrapped into the PDO namespace.
 
@@ -7,12 +7,12 @@ Laravel-ifx is an Informix Database Driver package for [Laravel Framework](http:
 - [Installation](#installation)
 - [License](#license)
 
-### Installation
+## Installation
 
 Require the package:
 
-```terminal
-$ composer require poyii/laravel-ifx
+```bash
+composer require poyii/laravel-ifx
 ```
 
 Skip below step if you are running Laravel newer than 5.6.
@@ -24,7 +24,13 @@ the `providers` key and add:
 Poyii\Informix\InformixDBServiceProvider::class,
 ```
 
-Finally, add the following in `config/database.php`, in `connections` key.
+Publish the configuration:
+
+```bash
+php artisan vendor:publish --tag=informix-config
+```
+
+Finally, update the following in `config/informix.php`.
 
 ```php
 'informix' => [
@@ -44,19 +50,17 @@ Finally, add the following in `config/database.php`, in `connections` key.
 ],
 ```
 
-This will copy the configuration file to `config/informix.php`
-
-### Set Informix DB `.env`
+## Set Informix DB `.env`
 
 You may need to add the following in the `.env` file if you are not have it in your environment setup.
 
-```
+```bash
 INFORMIXDIR=/opt/IBM/informix
 INFORMIXSERVER=ol-your-server
 LD_LIBRARY_PATH=/opt/IBM/informix/lib/:/opt/IBM/informix/lib/cli:/opt/IBM/informix/lib/esql
 PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/IBM/informix/bin:/opt/IBM/informix/lib
 ```
 
-### License
+## License
 
 Licensed under the [MIT License](http://cheeaun.mit-license.org/).

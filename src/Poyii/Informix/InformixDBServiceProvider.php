@@ -21,11 +21,9 @@ class InformixDBServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes(
-            [
-                __DIR__.'/../../config/informix.php' => config_path('informix.php'),
-            ]
-        );
+        $this->publishes([
+            __DIR__.'/../../config/informix.php' => config_path('informix.php'),
+        ], 'informix-config');
     }
 
     /**

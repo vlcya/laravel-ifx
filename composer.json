@@ -12,18 +12,11 @@
   ],
   "require": {
     "php": ">=7.1",
-    "illuminate/support": "9.*|10.*",
-    "illuminate/database": "9.*|10.*",
-    "illuminate/pagination": "9.*|10.*",
-    "illuminate/encryption": "9.*|10.*",
+    "illuminate/support": "9.*",
+    "illuminate/database": "9.*",
+    "illuminate/pagination": "9.*",
+    "illuminate/encryption": "9.*",
     "guzzlehttp/guzzle": "6.2.*|6.3.*|7.*|8.*|9.*|10.*"
-  },
-  "require-dev": {
-    "fzaninotto/faker": "~1.4",
-    "phpspec/phpspec": "~2.1",
-    "phpunit/phpunit": "~4.0|^6.5|^7.0|^8.0",
-    "orchestra/testbench": "3.5.*|3.6.*|3.7.*|3.8.*|4.*",
-    "mockery/mockery": "~0.9.4|^1.1"
   },
   "extra": {
     "laravel": {
